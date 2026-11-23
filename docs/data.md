@@ -492,11 +492,11 @@ valid IPv4 address (`10.0.0.256`, `4294967296`) is refused as well.
 
 ### Multi-Provider Support
 
-HTTP generation replies from `openai`, `server`, `ollama`, `vllm` and `anthropic`
+HTTP generation replies from `openai`, `server`, `ollama`, `vllm`, `anthropic` and `aimlapi`
 are limited to 8 MiB of decoded content, as are Magpie raw completions. The limit
 is checked while streaming, including gzip expansion, before JSON parsing.
 An oversized generation reply names the limit and the endpoint selector
-(`--api-base`, `--base-url` or `--provider anthropic`); it is refused without
+(`--api-base`, `--base-url`, `--provider anthropic` or `--provider aimlapi`); it is refused without
 logging its body. Magpie instead drops the affected instruction/response sample
 and continues collecting rows within its attempt limit, preserving its existing
 per-sample failure behavior; a single oversized reply does not abort the run.
@@ -508,6 +508,10 @@ soup data generate --prompt "..." --ollama-model llama3.1  # shorthand
 
 # Generate via Anthropic Claude API (set ANTHROPIC_API_KEY env var)
 soup data generate --prompt "..." --provider anthropic --model claude-3-haiku-20240307
+
+# Generate via AI/ML API, an OpenAI-compatible gateway to many hosted models
+# (set AIMLAPI_API_KEY env var; the key is only sent to https://api.aimlapi.com)
+soup data generate --prompt "..." --provider aimlapi --model openai/gpt-4o-mini
 
 # Generate via local vLLM server
 soup data generate --prompt "..." --provider vllm --model meta-llama/Llama-3.1-8B-Instruct

@@ -1325,7 +1325,7 @@ Usage: `soup data generate [OPTIONS]`
 | `--count`, `-n` | integer | `100` |  | Number of examples requested |
 | `--output`, `-o` | text | `generated.jsonl` |  | Output file path |
 | `--format`, `-f` | text | `alpaca` |  | Output format: alpaca, sharegpt, chatml |
-| `--provider` | text | `openai` |  | LLM provider: openai, local, server, ollama, anthropic, vllm |
+| `--provider` | text | `openai` |  | LLM provider: openai, local, server, ollama, anthropic, vllm, aimlapi |
 | `--model`, `-m` | text | `gpt-4o-mini` |  | Model name (OpenAI model ID, Ollama model, or local model path) |
 | `--api-key` | text |  |  | \[deprecated] Use OPENAI_API_KEY env var instead. Env: `OPENAI_API_KEY`. |
 | `--api-base` | text |  |  | Custom API base URL (must use HTTPS for remote APIs) |

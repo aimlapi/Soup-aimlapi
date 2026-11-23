@@ -119,6 +119,7 @@ soup data stats <path>                        Extended statistics
 soup data generate --prompt "..." --count 100  Generate synthetic data
 soup data generate ... --provider ollama      Use local Ollama instance
 soup data generate ... --provider anthropic   Use Claude API
+soup data generate ... --provider aimlapi     Use AI/ML API (AIMLAPI_API_KEY)
 soup data generate ... --provider vllm        Use local vLLM server
 soup data generate ... --template code        Domain templates (code/conversation/qa/preference/reasoning)
 soup data generate ... --quality-pipeline     Auto validate + filter + dedup

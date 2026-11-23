@@ -158,6 +158,7 @@ TARGETS = [
     "ollama",
     "vllm",
     "anthropic",
+    "aimlapi",
     "openai",
     "server",
     "magpie-ollama",
@@ -189,6 +190,10 @@ def _call_target(target: str) -> Any:
         from soup_cli.data.providers.anthropic import generate_anthropic
 
         return generate_anthropic(**common, generation_prompt="p")
+    if target == "aimlapi":
+        from soup_cli.data.providers.aimlapi import generate_aimlapi
+
+        return generate_aimlapi(**common, generation_prompt="p")
     from soup_cli.commands.generate import _generate_openai, _generate_server
 
     if target == "openai":
@@ -208,6 +213,7 @@ def test_every_target_limits_oversize_before_parsing(
     from soup_cli.utils import http_response, magpie
 
     monkeypatch.setenv("ANTHROPIC_API_KEY", "synthetic-secret-key")
+    monkeypatch.setenv("AIMLAPI_API_KEY", "synthetic-secret-key")
     monkeypatch.setattr(http_response, "JUDGE_RESPONSE_LIMIT_BYTES", 64)
     monkeypatch.setattr(http_response, "GENERATION_RESPONSE_LIMIT_BYTES", 64)
     monkeypatch.setattr(magpie, "_MAX_RESPONSE_BYTES", 64)
@@ -232,6 +238,7 @@ def test_every_target_limits_oversize_before_parsing(
                 "--api-base" in error_text
                 or "--base-url" in error_text
                 or "--provider anthropic" in error_text
+                or "--provider aimlapi" in error_text
             )
     assert "secret-body" not in error_text + caplog.text
     assert "synthetic-secret-key" not in error_text + caplog.text
@@ -306,6 +313,7 @@ def test_magpie_drops_oversized_sample_and_respects_attempt_bound(
 @pytest.mark.parametrize("target", TARGETS)
 def test_every_target_preserves_valid_reply(monkeypatch: pytest.MonkeyPatch, target: str) -> None:
     monkeypatch.setenv("ANTHROPIC_API_KEY", "synthetic-secret-key")
+    monkeypatch.setenv("AIMLAPI_API_KEY", "synthetic-secret-key")
     generated = '[{"instruction": "q", "output": "a"}]'
     payload = {
         "choices": [{"message": {"content": generated}, "text": generated}],

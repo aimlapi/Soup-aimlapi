@@ -188,6 +188,11 @@ DECLARED_SINKS: dict[tuple[str, str], DeclaredSink] = {
         gate=None,
         reason="fixed host: ANTHROPIC_API_URL is hardcoded to https://api.anthropic.com/v1/messages",
     ),
+    ("data/providers/aimlapi.py", "generate_aimlapi"): DeclaredSink(
+        calls=("soup_cli.utils.http_response.post_capped",),
+        gate=None,
+        reason="fixed host: AIMLAPI_API_URL is hardcoded to https://api.aimlapi.com/v1/chat/completions",
+    ),
     ("data/providers/ollama.py", "generate_ollama"): DeclaredSink(
         calls=("soup_cli.utils.http_response.post_capped",),
         gate=("generate_ollama", "validate_ollama_url"),

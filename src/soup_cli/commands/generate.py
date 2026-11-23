@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 console = Console()
 
-VALID_PROVIDERS = ("openai", "local", "server", "ollama", "anthropic", "vllm")
+VALID_PROVIDERS = ("openai", "local", "server", "ollama", "anthropic", "vllm", "aimlapi")
 VALID_FORMATS = ("alpaca", "sharegpt", "chatml")
 VALID_TEMPLATES = ("code", "conversation", "qa", "preference", "reasoning")
 
@@ -47,7 +47,7 @@ def generate(
     provider: str = typer.Option(
         "openai",
         "--provider",
-        help="LLM provider: openai, local, server, ollama, anthropic, vllm",
+        help="LLM provider: openai, local, server, ollama, anthropic, vllm, aimlapi",
     ),
     model_name: str = typer.Option(
         "gpt-4o-mini",
@@ -622,6 +622,17 @@ def _generate_batch(
         from soup_cli.data.providers.anthropic import generate_anthropic
 
         return generate_anthropic(
+            prompt=prompt,
+            count=count,
+            fmt=fmt,
+            model_name=model_name,
+            temperature=temperature,
+            generation_prompt=generation_prompt,
+        )
+    elif provider == "aimlapi":
+        from soup_cli.data.providers.aimlapi import generate_aimlapi
+
+        return generate_aimlapi(
             prompt=prompt,
             count=count,
             fmt=fmt,
